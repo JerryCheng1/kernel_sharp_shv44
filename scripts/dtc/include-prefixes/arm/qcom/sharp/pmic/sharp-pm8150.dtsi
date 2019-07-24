@@ -1,0 +1,212 @@
+/*
+ * Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+#include <dt-bindings/gpio/gpio.h>
+#include <dt-bindings/input/qcom,qpnp-power-on.h>
+#include <dt-bindings/regulator/qcom,rpmh-regulator.h>
+
+/*****************************************/
+/*  pm8150: qcom,pm8150 alias            */
+/*****************************************/
+&spmi_bus {
+	qcom,pm8150@0 {
+		qcom,power-on@800 {
+			qcom,pon_2 {
+				linux,code = <KEY_VOLUMEUP>;
+			};
+			qcom,pon_3 {
+				qcom,pon-type = <PON_POWER_ON_TYPE_KPDPWR_RESIN>;
+				qcom,support-reset = <0>;
+				qcom,pull-up = <1>;
+				qcom,s1-timer = <6720>;
+				qcom,s2-timer = <1000>;
+			};
+		};
+		qcom,temp-alarm@2400 {
+			io-channels = <&pm8150_vadc ADC_DIE_TEMP>;
+			io-channel-names = "thermal";
+		};
+	};
+
+	qcom,pm8150@1 {
+	};
+};
+
+/*****************************************/
+/*  pm8150-gpios: qpnp-pin               */
+/*****************************************/
+&pm8150_gpios {
+	pm8150_google_assist_key {
+		/* I/PU/L */	/* - */
+		pm8150_google_assist_key_default: pm8150_google_assist_key_default{
+			pins = "gpio1";			/* GPIO 1 */
+			function = "normal";		/* normal input */
+			bias-pull-up;			/* Pull Up */
+			qcom,pull-up-strength = <0>;	/* 30uA */
+			power-source = <0>;		/* VIN0 */
+			input-enable;			/* Digital Input */
+		};
+	};
+
+	pm8150_gpio2_dig_in {
+		/* I/PD/L */	/* - */
+		pm8150_gpio2_dig_in_default: pm8150_gpio2_dig_in_default{
+			pins = "gpio2";			/* GPIO 2 */
+			function = "normal";		/* Normal Input */
+			bias-pull-down;			/* Pull Down */
+			power-source = <0>;		/* VIN0 */
+			input-enable;			/* Digital Input */
+		};
+	};
+
+	pm8150_shub_clk {
+		/* O/NP/L */	/* SLEEP_CLK2 */
+		pm8150_shub_clk_default: pm8150_shub_clk_default{
+			pins = "gpio3";			/* GPIO 3 */
+			function = "func1";		/* Special Function 1 */
+			bias-disable;			/* No Pull */
+			power-source = <0>;		/* VIN0 */
+			output-low;			/* Output Low */
+			qcom,drive-strength = <1>;	/* Low strength */
+		};
+	};
+
+	pm8150_lcd_clk {
+		/* I/PD/L */	/* LCD_CLK */
+		pm8150_lcd_clk_default: pm8150_lcd_clk_default{
+			pins = "gpio4";			/* GPIO 4 */
+			function = "normal";	/* Normal Input */
+			bias-pull-down;			/* Pull Down */
+			power-source = <1>;		/* VIN1 */
+			input-enable;			/* Digital Input */
+		};
+	};
+
+	pm8150_option_1 {
+		/* I/PD/L */
+		pm8150_option_1_default: pm8150_option_1_default{
+			pins = "gpio5";			/* GPIO 5 */
+			function = "normal";		/* Normal Input */
+			bias-pull-down;			/* Pull Down */
+			power-source = <1>;		/* VIN1 */
+			input-enable;			/* Digital Input */
+		};
+	};
+
+	pm8150_down_key {
+		/* I/PU/H */
+		pm8150_down_key_default: pm8150_down_key_default{
+			pins = "gpio6";			/* GPIO 6 */
+			function = "normal";		/* Normal Input */
+			bias-pull-up;			/* Pull Up */
+			power-source = <1>;		/* VIN1 */
+			input-enable;			/* Digital Input */
+		};
+	};
+
+	pm8150_gpio7_dig_in{
+		/* I/PD/L */
+		pm8150_gpio7_dig_in_default: pm8150_gpio7_dig_in_default{
+			pins = "gpio7";			/* GPIO 7 */
+			function = "normal";		/* Normal Input */
+			bias-pull-down;			/* Pull Down */
+			power-source = <1>;		/* VIN1 */
+			input-enable;			/* Digital Input */
+		};
+	};
+
+	pm8150_gpio9_dig_in{
+		/* I/PD/L */
+		pm8150_gpio9_dig_in_default: pm8150_gpio9_dig_in_default{
+			pins = "gpio9";			/* GPIO 9 */
+			function = "normal";		/* Normal Input */
+			bias-pull-down;			/* Pull Down */
+			power-source = <1>;		/* VIN1 */
+			input-enable;			/* Digital Input */
+		};
+	};
+
+	pm8150_gpio10_dig_in{
+		/* I/PD/L */
+		pm8150_gpio10_dig_in_default: pm8150_gpio10_dig_in_default{
+			pins = "gpio10";		/* GPIO 10 */
+			function = "normal";		/* Normal Input */
+			bias-pull-down;			/* Pull Down */
+			power-source = <1>;		/* VIN1 */
+			input-enable;			/* Digital Input */
+		};
+	};
+};
+
+/*****************************************/
+/*  pm8150: rpm-regulator                */
+/*****************************************/
+&soc{
+	rpmh-regulator-ldoa13 {
+		qcom,send-defaults;
+		L13A: pm8150_l13: regulator-pm8150-l13 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+			qcom,init-voltage = <1800000>;
+			qcom,init-mode = <RPMH_REGULATOR_MODE_LPM>;
+			qcom,init-enable = <0>;
+		};
+	};
+
+	rpmh-regulator-ldoa14 {
+		qcom,send-defaults;
+		L14A: pm8150_l14: regulator-pm8150-l14 {
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+			qcom,init-voltage = <1800000>;
+			qcom,init-mode = <RPMH_REGULATOR_MODE_HPM>;
+			qcom,init-enable = <1>;
+		};
+	};
+
+	rpmh-regulator-ldoa17 {
+		qcom,send-defaults;
+		L17A: pm8150_l17: regulator-pm8150-l17 {
+			regulator-min-microvolt = <3000000>;
+			regulator-max-microvolt = <3000000>;
+			qcom,init-voltage = <3000000>;
+			qcom,init-mode = <RPMH_REGULATOR_MODE_HPM>;
+			qcom,init-enable = <0>;
+		};
+	};
+};
+
+/*****************************************/
+/*  SHARP Device Drivers                 */
+/*****************************************/
+&soc {
+	/*---------------------------------------*/
+	/*  Battery Control Driver               */
+	/*---------------------------------------*/
+	sharp,shbatt {
+		compatible = "sharp,shbatt";
+		sharp,cl-high-thresh = <45>;
+		sharp,cl-low-thresh = <45>;
+
+		sharp,cl-cc-thresh = <20000>;			/* percent */
+		sharp,cl-cc-update-thresh = <1>;		/* percent */
+		sharp,cl-batt-temp-thresh = <400>;		/* 0.1degC */
+		sharp,cl-soc-thresh = <90>;				/* percent */
+		sharp,cl-rtc-thresh = <720000>;			/* sec */
+		sharp,cl-rtc-update-thresh = <60>;		/* sec */
+		sharp,cl-aged-voltage-max = <4300000>;	/* uV */
+		sharp,cl-aged-ibatt-full = <(-150)>;	/* mA */
+		sharp,cl-aged-vbatt-full = <4290>;		/* mV */
+		status = "ok";
+	};
+};

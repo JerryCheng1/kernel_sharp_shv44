@@ -1,0 +1,110 @@
+/* Copyright (c) 2013-2014, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+&tlmm {
+	/*****************************************/
+	/*  pinctrl customize setting            */
+	/*  SHARP Qi Rx Charger                  */
+	/*****************************************/
+	/* gpio49 */
+	sharp_qi_int_n_active: sharp_qi_int_n_active {
+		mux {
+			pins = "gpio49";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio49";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
+	sharp_qi_int_n_suspend: sharp_qi_int_n_suspend {
+		mux {
+			pins = "gpio49";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio49";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
+	sharp_qi_int_n_pullup: sharp_qi_int_n_pullup {
+		mux {
+			pins = "gpio49";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio49";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
+	sharp_qi_int_n_pulldown: sharp_qi_int_n_pulldown {
+		mux {
+			pins = "gpio49";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio49";
+			drive-strength = <2>;
+			bias-pull-down;
+		};
+	};
+
+	/* gpio125 */
+	sharp_qi_pg_active: sharp_qi_pg_active {
+		mux {
+			pins = "gpio125";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio125";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
+	sharp_qi_pg_suspend: sharp_qi_pg_suspend {
+		mux {
+			pins = "gpio125";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio125";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
+	sharp_qi_pg_pullup: sharp_qi_pg_pullup {
+		mux {
+			pins = "gpio125";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio125";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
+	sharp_qi_pg_pulldown: sharp_qi_pg_pulldown {
+		mux {
+			pins = "gpio125";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio125";
+			drive-strength = <2>;
+			bias-pull-down;
+		};
+	};
+};
+

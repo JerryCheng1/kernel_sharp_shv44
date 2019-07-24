@@ -1,0 +1,352 @@
+/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+/*******************************************/
+/*  Add SHARP include                      */
+/*******************************************/
+#include "sharp-pinctrl-sm8150-sdcc.dtsi"
+/* SH_AUDIO_DRIVER -> */ /*A-001*/
+#include "sharp-pinctrl-audio.dtsi"
+/* SH_AUDIO_DRIVER <- */ /*A-001*/
+#include "sharp-pinctrl-kars-nfc.dtsi"
+#include "sharp-pinctrl-shtps.dtsi"
+#include "sharp-pinctrl-hall.dtsi"
+#include "sharp-pinctrl-fpsensor.dtsi"
+#include "sharp-pinctrl-shbatt.dtsi"
+#include "sharp-pinctrl-sm8150-bluetooth.dtsi"
+
+/*-----------------------------------------*/
+/* Add SHARP pin mappings.                 */
+/*-----------------------------------------*/
+&tlmm {
+	/*****************************************/
+	/*  UART/Serial                          */
+	/*****************************************/
+	/* UART 13 */
+	sharp_uart13_requested: sharp_uart13_requested {
+		mux {
+			pins = "gpio43";
+			function = "qup13";
+		};
+		config {
+			pins = "gpio43";
+			drive-strength = <2>;
+			bias-pull-down;
+		};
+	};
+
+
+	/*****************************************/
+	/*  I2C                                  */
+	/*****************************************/
+	/* I2C 1 */
+	sharp_i2c1_requested: sharp_i2c1_requested {
+		mux {
+			pins = "gpio114", "gpio115";
+			function = "qup1";
+		};
+		config {
+			pins = "gpio114", "gpio115";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	sharp_i2c1_free: sharp_i2c1_free {
+		mux {
+			pins = "gpio114", "gpio115";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio114", "gpio115";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	/* I2C 4 */
+	sharp_i2c4_requested: sharp_i2c4_requested {
+		mux {
+			pins = "gpio51", "gpio52";
+			function = "qup4";
+		};
+		config {
+			pins = "gpio51", "gpio52";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	sharp_i2c4_free: sharp_i2c4_free {
+		mux {
+			pins = "gpio51", "gpio52";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio51", "gpio52";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	/* I2C 9 */
+	sharp_i2c9_requested: sharp_i2c9_requested {
+		mux {
+			pins = "gpio39", "gpio40";
+			function = "qup9";
+		};
+		config {
+			pins = "gpio39", "gpio40";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	sharp_i2c9_free: sharp_i2c9_free {
+		mux {
+			pins = "gpio39", "gpio40";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio39", "gpio40";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	/* I2C 10 */
+	sharp_i2c10_requested: sharp_i2c10_requested {
+		mux {
+			pins = "gpio9", "gpio10";
+			function = "qup10";
+		};
+		config {
+			pins = "gpio9", "gpio10";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	sharp_i2c10_free: sharp_i2c10_free {
+		mux {
+			pins = "gpio9", "gpio10";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio9", "gpio10";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	/* I2C 11 */
+	sharp_i2c11_requested: sharp_i2c11_requested {
+		mux {
+			pins = "gpio94", "gpio95";
+			function = "qup11";
+		};
+		config {
+			pins = "gpio94", "gpio95";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	sharp_i2c11_free: sharp_i2c11_free {
+		mux {
+			pins = "gpio94", "gpio95";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio94", "gpio95";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	/* I2C 17 */
+	sharp_i2c17_requested: sharp_i2c17_requested {
+		mux {
+			pins = "gpio55", "gpio56";
+			function = "qup17";
+		};
+		config {
+			pins = "gpio55", "gpio56";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	sharp_i2c17_sdx50m_requested: sharp_i2c17_sdx50m_requested {
+		mux {
+			pins = "gpio55", "gpio56";
+			function = "qup17";
+		};
+		config {
+			pins = "gpio55", "gpio56";
+			drive-strength = <4>;
+			bias-disable;
+		};
+	};
+
+	sharp_i2c17_free: sharp_i2c17_free {
+		mux {
+			pins = "gpio55", "gpio56";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio55", "gpio56";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	sharp_i2c17_sdx50m_free: sharp_i2c17_sdx50m_free {
+		mux {
+			pins = "gpio55", "gpio56";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio55", "gpio56";
+			drive-strength = <4>;
+			bias-disable;
+		};
+	};
+
+	/*****************************************/
+	/*  SPI                                  */
+	/*****************************************/
+	/* SPI 8 */
+	sharp_spi8_requested_miso: sharp_spi8_requested_miso {
+		mux {
+			pins = "gpio88";
+			function = "qup8";
+		};
+		config {
+			pins = "gpio88";
+			drive-strength = <2>;
+			bias-pull-down;
+		};
+	};
+
+	sharp_spi8_sleep_miso: sharp_spi8_sleep_miso {
+		mux {
+			pins = "gpio88";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio88";
+			drive-strength = <2>;
+			bias-pull-down;
+		};
+	};
+
+	sharp_spi8_sdx50m_sleep_miso: sharp_spi8_sdx50m_sleep_miso {
+		mux {
+			pins = "gpio88";
+			function = "qup8";
+		};
+		config {
+			pins = "gpio88";
+			drive-strength = <2>;
+			bias-pull-down;
+		};
+	};
+
+	sharp_spi8_requested_clk_cs: sharp_spi8_requested_clk_cs {
+		mux {
+			pins = "gpio90", "gpio91";
+			function = "qup8";
+		};
+		config {
+			pins = "gpio90", "gpio91";
+			drive-strength = <6>;
+			bias-disable;
+		};
+	};
+
+	sharp_spi8_sleep_clk_cs: sharp_spi8_sleep_clk_cs {
+		mux {
+			pins = "gpio90", "gpio91";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio90", "gpio91";
+			drive-strength = <6>;
+			bias-pull-down;
+		};
+	};
+
+	sharp_spi8_sdx50m_sleep_clk_cs: sharp_spi8_sdx50m_sleep_clk_cs {
+		mux {
+			pins = "gpio90", "gpio91";
+			function = "qup8";
+		};
+		config {
+			pins = "gpio90", "gpio91";
+			drive-strength = <6>;
+			bias-disable;
+		};
+	};
+
+	sharp_spi8_requested_mosi: sharp_spi8_requested_mosi {
+		mux {
+			pins = "gpio89";
+			function = "qup8";
+		};
+		config {
+			pins = "gpio89";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	sharp_spi8_sleep_mosi: sharp_spi8_sleep_mosi {
+		mux {
+			pins = "gpio89";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio89";
+			drive-strength = <2>;
+			bias-pull-down;
+		};
+	};
+
+	sharp_spi8_sdx50m_sleep_mosi: sharp_spi8_sdx50m_sleep_mosi {
+		mux {
+			pins = "gpio89";
+			function = "qup8";
+		};
+		config {
+			pins = "gpio89";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+};
+
+
+/*-----------------------------------------*/
+/* Modify pin mappings.                    */
+/*-----------------------------------------*/
+/*****************************************/
+/*  UART/Serial                          */
+/*****************************************/
+/* SE 13 pin overlay */
+&qupv3_se13_ctsrx {
+	mux {
+		pins = "gpio46";
+	};
+	config {
+		pins = "gpio46";
+	};
+};

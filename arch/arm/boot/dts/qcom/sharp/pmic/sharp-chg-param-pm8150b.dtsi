@@ -1,0 +1,85 @@
+/*
+ * Copyright (c) 2018, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/****************************************/
+/* pm8150b_charger						*/
+/****************************************/
+&pm8150b_charger {
+	qcom,sec-charger-config = <0>;
+	qcom,charger-temp-max = <800>;
+	qcom,smb-temp-max = <800>;
+	qcom,fcc-max-ua = <2200000>;
+	qcom,fv-max-uv = <4350000>;
+	qcom,usb-icl-ua = <1500000>;
+	qcom,otg-cl-ua = <1000000>;
+	qcom,thermal-mitigation = <3000000 1500000 1400000 1200000 1100000 1000000 900000 700000 600000 500000 400000 300000 150000>;
+	qcom,float-option = <2>;
+	qcom,hvdcp-disable;
+	qcom,auto-recharge-soc = <91>;
+	/delete-property/ qcom,step-charging-enable;
+	qcom,wd-bark-time-secs = <16>;
+	qcom,sw-jeita-enable;
+	qcom,lpd-disable;
+	qcom,typec-safety-trigger-threshold = <55>;
+	qcom,typec-safety-cancel-threshold = <45>;
+	qcom,shdiag-fv-max-uv = <4000000>;
+};
+
+/****************************************/
+/* pm8150b_fg							*/
+/****************************************/
+&pm8150b_fg {
+	qcom,fg-cutoff-voltage = <3350>;
+	qcom,fg-empty-voltage = <3100>;
+	qcom,fg-sys-term-current = <(-150)>;
+	qcom,fg-cutoff-current = <200>;
+	qcom,fg-delta-soc-thr = <16>;
+	qcom,fg-esr-timer-chg-fast = <0 7>;
+	qcom,fg-esr-timer-dischg-fast = <0 7>;
+	qcom,fg-esr-timer-chg-slow = <0 96>;
+	qcom,fg-esr-timer-dischg-slow = <0 96>;
+	qcom,fg-esr-cal-soc-thresh = <26 230>;
+	qcom,fg-esr-cal-temp-thresh = <10 40>;
+	qcom,cl-start-capacity = <40>;
+	qcom,cl-min-temp = <150>;
+	qcom,cl-max-temp = <400>;
+	qcom,cl-max-increment = <20>;
+	qcom,cl-max-decrement = <20>;
+	qcom,hold-soc-while-full;
+	qcom,linearize-soc;
+	qcom,ki-coeff-soc-dischg = <100 100 100>;
+	qcom,ki-coeff-low-dischg = <184 184 184>;
+	qcom,ki-coeff-med-dischg = <367 367 367>;
+	qcom,ki-coeff-hi-dischg = <550 550 550>;
+	qcom,ki-coeff-low-chg = <184>;
+	qcom,ki-coeff-med-chg = <367>;
+	qcom,ki-coeff-hi-chg = <550>;
+	qcom,slope-limit-temp-threshold = <100>;
+	qcom,slope-limit-coeffs = <1230 1230 1230 1230>;
+};
+
+/****************************************/
+/* thermal_zones						*/
+/****************************************/
+&thermal_zones {
+	soc {
+		trips {
+			soc-trip {
+				temperature = <5>;
+				hysteresis = <0>;
+				type = "passive";
+			};
+		};
+	};
+};
+

@@ -1,0 +1,211 @@
+/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/*******************************************/
+/*  Add SHARP include                      */
+/*******************************************/
+#include "sharp_pinctrl/sharp-pinctrl-sm8150.dtsi"
+#include "sharp_pinctrl/sharp-pinctrl-shub.dtsi"
+#include "pmic/sharp-pm8150.dtsi"
+#include "pmic/sharp-pm8150b.dtsi"
+#include "pmic/sharp-pm8150l.dtsi"
+#include "storage/sharp-sm8150-sdcc.dtsi"
+#include "shusb/sharp-common-sm8150-usb-overlay.dtsi"
+
+
+/*******************************************/
+/* Add SHARP settings.                     */
+/*******************************************/
+&firmware {
+    android {
+        fstab {
+            odm {
+                compatible = "android,odm";
+                dev = "/dev/block/platform/soc/1d84000.ufshc/by-name/odm";
+                type = "ext4";
+                mnt_flags = "ro,barrier=1,discard";
+                fsmgr_flags = "wait,slotselect";
+                status = "ok";
+            };
+            product {
+                compatible = "android,product";
+                dev = "/dev/block/platform/soc/1d84000.ufshc/by-name/product";
+                type = "ext4";
+                mnt_flags = "ro,barrier=1,discard";
+                fsmgr_flags = "wait,slotselect";
+                status = "ok";
+            };
+
+        };
+    };
+};
+
+&pcie0 {
+	status = "disabled";
+};
+
+
+/*-----------------------------------------*/
+/* Modify QUP Settings.                    */
+/*-----------------------------------------*/
+/*------------------------------*/
+/*  QUP0                        */
+/*------------------------------*/
+/* NOT USE */
+
+
+/*------------------------------*/
+/*  QUP1                        */
+/*------------------------------*/
+&qupv3_se1_i2c {
+	qcom,clk-freq-out = <400000>;		/* 400KHz */
+	pinctrl-0 = <&sharp_i2c1_requested>;
+	pinctrl-1 = <&sharp_i2c1_free>;
+	status = "disabled";
+};
+
+
+/*------------------------------*/
+/*  QUP2                        */
+/*------------------------------*/
+/* can be accessed from TZ */
+
+
+/*------------------------------*/
+/*  QUP3                        */
+/*------------------------------*/
+/* use qcom settings */
+
+
+/*------------------------------*/
+/*  QUP4                        */
+/*------------------------------*/
+&qupv3_se4_i2c {
+	qcom,clk-freq-out = <400000>;			/* 400KHz */
+	pinctrl-0 = <&sharp_i2c4_requested>;
+	pinctrl-1 = <&sharp_i2c4_free>;
+	status = "disabled";
+};
+
+
+/*------------------------------*/
+/*  QUP5                        */
+/*------------------------------*/
+/* NOT USE */
+
+
+/*------------------------------*/
+/*  QUP6                        */
+/*------------------------------*/
+/* use qcom settings */
+
+
+/*------------------------------*/
+/*  QUP7                        */
+/*------------------------------*/
+/* NOT USE */
+
+
+/*------------------------------*/
+/*  QUP8                        */
+/*------------------------------*/
+&qupv3_se8_spi {
+	spi-max-frequency = <50000000>;		/* 48MHz ==> 50MHz */
+	pinctrl-0 = <&sharp_spi8_requested_miso &sharp_spi8_requested_clk_cs &sharp_spi8_requested_mosi>;
+	pinctrl-1 = <&sharp_spi8_sdx50m_sleep_miso &sharp_spi8_sdx50m_sleep_clk_cs &sharp_spi8_sdx50m_sleep_mosi>;
+	status = "disabled";
+};
+
+
+/*------------------------------*/
+/*  QUP9                        */
+/*------------------------------*/
+&qupv3_se9_i2c {
+	qcom,clk-freq-out = <400000>;		/* 400KHz */
+	pinctrl-0 = <&sharp_i2c9_requested>;
+	pinctrl-1 = <&sharp_i2c9_free>;
+	status = "disabled";
+};
+
+/delete-node/ &nq_nci;
+
+/*------------------------------*/
+/*  QUP10                       */
+/*------------------------------*/
+&qupv3_se10_i2c {
+	qcom,clk-freq-out = <400000>;		/* 400KHz */
+	pinctrl-0 = <&sharp_i2c10_requested>;
+	pinctrl-1 = <&sharp_i2c10_free>;
+	status = "disabled";
+};
+
+
+/*------------------------------*/
+/*  QUP11                       */
+/*------------------------------*/
+/* NOT USE */
+
+
+/*------------------------------*/
+/*  QUP12                       */
+/*------------------------------*/
+/* use qcom settings */
+
+
+/*------------------------------*/
+/*  QUP13                       */
+/*------------------------------*/
+/* use BT settings */
+
+
+/*------------------------------*/
+/*  QUP14                       */
+/*------------------------------*/
+/* NOT USE */
+
+
+/*------------------------------*/
+/*  QUP15                       */
+/*------------------------------*/
+/* NOT USE */
+
+
+/*------------------------------*/
+/*  QUP16                       */
+/*------------------------------*/
+/* QUP12 MUX */
+
+
+/*------------------------------*/
+/*  QUP17                       */
+/*------------------------------*/
+&qupv3_se17_i2c {
+	qcom,clk-freq-out = <400000>;		/* 400KHz */
+	pinctrl-0 = <&sharp_i2c17_sdx50m_requested>;
+	pinctrl-1 = <&sharp_i2c17_sdx50m_free>;
+	status = "disabled";
+};
+
+
+/*------------------------------*/
+/*  QUP18                       */
+/*------------------------------*/
+/* NOT USE */
+
+
+/*------------------------------*/
+/*  QUP19                       */
+/*------------------------------*/
+/* QUP17 MUX */
+
+
+

@@ -1,0 +1,441 @@
+/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/*****************************************/
+/*  Add SHARP include                    */
+/*****************************************/
+#include "shrlog/shrlog-sm8150-sdx50m.dtsi"
+#include "shdiag/shdiag-sm8150.dtsi"
+
+/*------------------------------*/
+/* Pinctrl                      */
+/*------------------------------*/
+
+
+/*------------------------------*/
+/* Device                       */
+/*------------------------------*/
+#include "shdisp/sharp-shdisp-kars.dtsi"
+/* SH_AUDIO_DRIVER -> */ /*A-001*/
+#include "shaudio/sharp-shaudio-sound.dtsi"
+/* SH_AUDIO_DRIVER <- */ /*A-001*/
+#include "vib/sharp-kars-vib.dtsi"
+#include "shnfc/sharp-nfc.dtsi"
+#include "hall/sharp-hall.dtsi"
+#include "pmic/sharp-pm8150-qd93.dtsi"
+#include "fingerprint/sharp-kars-fpsensor.dtsi"
+#include "pmic/sharp-pm8150-kars.dtsi"
+#include "pmic/sharp-pm8150b-kars.dtsi"
+#include "pmic/sharp-pm8150l-kars.dtsi"
+#include "camera/sharp-kars-camera-sensor.dtsi"
+#include "bluetooth/sharp-bluetooth.dtsi"
+
+
+/*******************************************/
+/* SHARP Settings.                         */
+/*******************************************/
+/*-----------------------------------------*/
+/* Add Sharp Settings.                     */
+/*-----------------------------------------*/
+&gpio_keys {
+	/delete-property/ pinctrl-names;
+	/delete-property/ pinctrl-0;
+
+	/delete-node/ vol_up;
+
+	vol_down {
+		label = "volume_down";
+		gpios = <&pm8150_gpios 6 GPIO_ACTIVE_LOW>;
+		linux,input-type = <1>;
+		linux,code = <KEY_VOLUMEDOWN>;
+		gpio-key,wakeup;
+		debounce-interval = <15>;
+		linux,can-disable;
+	};
+
+	assistant {
+		label = "google_assistant";
+		gpios = <&pm8150_gpios 1 GPIO_ACTIVE_LOW>;
+		linux,input-type = <1>;
+		linux,code = <196>;
+		gpio-key,wakeup;
+		debounce-interval = <15>;
+		linux,can-disable;
+	};
+};
+
+
+/*-----------------------------------------*/
+/* Modify QUP Settings.                    */
+/*-----------------------------------------*/
+/*------------------------------*/
+/*  QUP0                        */
+/*------------------------------*/
+/* NOT USE */
+
+
+/*------------------------------*/
+/*  QUP1                        */
+/*------------------------------*/
+&qupv3_se1_i2c {
+	status = "ok";
+	sensorhub@2C {
+		status = "ok";
+		compatible = "sharp,sensorhub";
+		reg = <0x2C>;
+		qcom,clk-freq-out = <400000>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <61 0x2>;
+		irq-gpio = <&tlmm 61 0x00>;
+		qcom,shub-gpio-reset = <&tlmm 35 0>;
+		qcom,shub-gpio-brmp = <&tlmm 120 0>;
+		qcom,shub-gpio-int0 = <&tlmm 119 0>;
+		pinctrl-names = "shub_reset_active","shub_reset_suspend",
+			"shub_int0_active","shub_int0_suspend",
+			"shub_int0_pullup","shub_int0_pulldown",
+			"shub_brmp_active","shub_brmp_suspend",
+			"shub_sleep_clk";
+		pinctrl-0 = <&shub_reset_active>;
+		pinctrl-1 = <&shub_reset_suspend>;
+		pinctrl-2 = <&shub_int0_active>;
+		pinctrl-3 = <&shub_int0_suspend>;
+		pinctrl-4 = <&shub_int0_pullup>;
+		pinctrl-5 = <&shub_int0_pulldown>;
+		pinctrl-6 = <&shub_brmp_active>;
+		pinctrl-7 = <&shub_brmp_suspend>;
+		pinctrl-8 = <&pm8150_shub_clk_default>;
+		shub,shub_acc_axis_val = <0>;
+		shub,shub_gyro_axis_val = <0>;
+		shub,shub_mag_axis_val = <0>;
+	};
+};
+
+&soc {
+	sharp,shub_acc {
+		status = "ok";
+		compatible = "sharp,shub_acc";
+	};
+
+	sharp,shub_diag {
+		status = "ok";
+		compatible = "sharp,shub_diag";
+	};
+
+	sharp,shub_exif {
+		status = "ok";
+		compatible = "sharp,shub_exif";
+	};
+
+	sharp,shub_game_rotation_vec {
+		status = "ok";
+		compatible = "sharp,shub_rot_gyro";
+	};
+
+	sharp,shub_grav {
+		status = "ok";
+		compatible = "sharp,shub_grav";
+	};
+
+	sharp,shub_gyro {
+		status = "ok";
+		compatible = "sharp,shub_gyro";
+	};
+
+	sharp,shub_gyro_uncal {
+		status = "ok";
+		compatible = "sharp,shub_gyrounc";
+	};
+
+	sharp,shub_linear_acc {
+		status = "ok";
+		compatible = "sharp,shub_linearacc";
+	};
+
+	sharp,shub_mag {
+		status = "ok";
+		compatible = "sharp,shub_mag";
+	};
+
+	sharp,shub_mag_rotation_vec {
+		status = "ok";
+		compatible = "sharp,shub_rot_mag";
+	};
+
+	sharp,shub_mag_uncalib {
+		status = "ok";
+		compatible = "sharp,shub_mag_unc";
+	};
+
+	sharp,shub_mcu {
+		status = "ok";
+		compatible = "sharp,shub_mcu";
+	};
+
+	sharp,shub_orientation {
+		status = "ok";
+		compatible = "sharp,shub_orien";
+	};
+
+	sharp,shub_pedo {
+		status = "ok";
+		compatible = "sharp,shub_pedo";
+	};
+
+	sharp,shub_pedodet {
+		status = "ok";
+		compatible = "sharp,shub_pedodet";
+	};
+
+	sharp,shub_rotation_vec {
+		status = "ok";
+		compatible = "sharp,shub_rot";
+	};
+
+	sharp,shub_significant {
+		status = "ok";
+		compatible = "sharp,shub_signif";
+	};
+
+	sharp,shub_device_orientation {
+		status = "ok";
+		compatible = "sharp,shub_dev_orien";
+	};
+};
+
+/*------------------------------*/
+/*  QUP2                        */
+/*------------------------------*/
+/* can be accessed from TZ */
+
+
+/*------------------------------*/
+/*  QUP3                        */
+/*------------------------------*/
+/* use qcom settings */
+
+
+/*------------------------------*/
+/*  QUP4                        */
+/*------------------------------*/
+&qupv3_se4_i2c {
+	status = "ok";
+	fc8350_i2c@2c {
+		compatible = "isdb,isdb_fc8350";
+		reg = <0x2c>;
+	};
+};
+
+
+/*------------------------------*/
+/*  QUP5                        */
+/*------------------------------*/
+/* NOT USE */
+
+
+/*------------------------------*/
+/*  QUP6                        */
+/*------------------------------*/
+/* NOT USE */
+
+
+/*------------------------------*/
+/*  QUP7                        */
+/*------------------------------*/
+/* NOT USE */
+
+
+/*------------------------------*/
+/*  QUP8                        */
+/*------------------------------*/
+&qupv3_se8_spi {
+	status = "ok";
+	fc8350spi@0 {
+		status = "ok";
+		compatible = "fci,isdbt";
+		reg = <0>;
+		spi-max-frequency = <50000000>;
+		spi-cpol;
+		spi-cpha;
+		spi-mode = <0>;
+
+		enable-gpio = <&tlmm 92 0>;
+		reset-gpio = <&tlmm 21 0>;
+		irq-gpio = <&tlmm 93 0>;
+	};
+};
+
+
+/*------------------------------*/
+/*  QUP9                        */
+/*------------------------------*/
+&qupv3_se9_i2c {
+	status = "ok";
+	cxd224x-i2c@28 {
+		status = "ok";
+		compatible = "cxd224x-i2c";
+		reg = <0x28>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <37 0>;
+		cxd224x,irq_gpio  = <&tlmm 37 0x00>;
+		cxd224x,wake_gpio = <&tlmm 42 0x00>;
+		cxd224x,rst_gpio  = <&tlmm 41 0x00>;
+		cxd224x,tst1_gpio = <&pm8150l_gpios 12 0x00>;
+		cxd224x,status_gpio = <&tlmm 36 0x00>;
+		pinctrl-names = "cxd224x_default_int","cxd224x_default_wake",
+						"cxd224x_default_rst","cxd224x_default_status";
+		pinctrl-0 = <&nfc_nint_active>;
+		pinctrl-1 = <&nfc_pon_active>;
+		pinctrl-2 = <&nfc_reset_active>;
+		pinctrl-3 = <&nfc_status_active>;
+	};
+};
+
+
+/*------------------------------*/
+/*  QUP10                       */
+/*------------------------------*/
+&qupv3_se10_i2c {
+	status = "ok";
+};
+
+
+/*------------------------------*/
+/*  QUP11                       */
+/*------------------------------*/
+&qupv3_se11_i2c {
+	status = "ok";
+	shbatt_qi_rx@44 {
+		status = "ok";
+		compatible = "sharp,shbatt_qi_rx";
+		reg = <0x44>;
+		qcom,clk-freq-out = <400000>;	/* 400KHz */
+		interrupt-parent = <&tlmm>;
+		interrupts = <GIC_SPI 49 IRQ_TYPE_EDGE_FALLING>;
+		irq-gpio = <&tlmm 49 0x00>;
+		qirx_vcc_en_gpio      = <&pm8150b_gpios 1 GPIO_ACTIVE_HIGH>;
+		qirx_rst_gpio         = <&pm8150b_gpios 2 GPIO_ACTIVE_HIGH>;
+		qirx_addet_state_gpio = <&pm8150b_gpios 8 GPIO_ACTIVE_LOW>;
+		qirx_en_gpio          = <&pm8150b_gpios 10 GPIO_ACTIVE_LOW>;
+		qirx_int_n_gpio       = <&tlmm 49 0>;
+		qirx_i2c_scl          = <&tlmm 94 0>;
+		qirx_i2c_sda          = <&tlmm 95 0>;
+		qirx_pg_gpio          = <&tlmm 125 0>;
+		pinctrl-names = "sharp_i2c11_requested","sharp_i2c11_free",
+						"sharp_qi_int_n_active","sharp_qi_int_n_suspend",
+						"sharp_qi_int_n_pullup","sharp_qi_int_n_pulldown",
+						"sharp_qi_pg_active","sharp_qi_pg_suspend",
+						"sharp_qi_pg_pullup","sharp_qi_pg_pulldown",
+						"pm8150b_qi_vcc_en_active","pm8150b_qi_rst_active",
+						"pm8150b_qi_addet_state_active","pm8150b_qi_en1_active",
+						"pm8150b_qi_vcc_en_suspend","pm8150b_qi_rst_suspend",
+						"pm8150b_qi_addet_state_suspend","pm8150b_qi_en1_suspend";
+		pinctrl-0 = <&sharp_i2c11_requested>;
+		pinctrl-1 = <&sharp_i2c11_free>;
+		pinctrl-2 = <&sharp_qi_int_n_active>;
+		pinctrl-3 = <&sharp_qi_int_n_suspend>;
+		pinctrl-4 = <&sharp_qi_int_n_pullup>;
+		pinctrl-5 = <&sharp_qi_int_n_pulldown>;
+		pinctrl-6 = <&sharp_qi_pg_active>;
+		pinctrl-7 = <&sharp_qi_pg_suspend>;
+		pinctrl-8 = <&sharp_qi_pg_pullup>;
+		pinctrl-9 = <&sharp_qi_pg_pulldown>;
+		pinctrl-10 = <&pm8150b_qi_vcc_en_active>;
+		pinctrl-11 = <&pm8150b_qi_rst_active>;
+		pinctrl-12 = <&pm8150b_qi_addet_state_active>;
+		pinctrl-13 = <&pm8150b_qi_en1_active>;
+		pinctrl-14 = <&pm8150b_qi_vcc_en_suspend>;
+		pinctrl-15 = <&pm8150b_qi_rst_suspend>;
+		pinctrl-16 = <&pm8150b_qi_addet_state_suspend>;
+		pinctrl-17 = <&pm8150b_qi_en1_suspend>;
+	};
+};
+
+
+/*------------------------------*/
+/*  QUP12                       */
+/*------------------------------*/
+/* use qcom settings */
+
+
+/*------------------------------*/
+/*  QUP13                       */
+/*------------------------------*/
+/* use qcom settings (except GPIO 43 44) */
+&qupv3_se13_4uart {
+	status = "ok";
+};
+
+
+/*------------------------------*/
+/*  QUP14                       */
+/*------------------------------*/
+/* NOT USE */
+
+
+/*------------------------------*/
+/*  QUP15                       */
+/*------------------------------*/
+/* NOT USE */
+
+
+/*------------------------------*/
+/*  QUP16                       */
+/*------------------------------*/
+/* QUP12 MUX */
+
+
+/*------------------------------*/
+/*  QUP17                       */
+/*------------------------------*/
+&qupv3_se17_i2c {
+	status = "ok";
+
+	shtps_rmi@26 {
+		status = "ok";
+		compatible = "sharp,shtps_rmi-i2c";
+		reg = <0x26>;
+		interrupt-parent = <&tlmm>;
+		interrupts = <122 0>;
+
+		/* user defined property */
+		shtps_rmi,rst_pin = <&tlmm 54 0>;
+		shtps_rmi,vddh-supply = <&pm8150_l17>;
+		shtps_rmi,vbus-supply = <&pm8150l_l8>;
+		shtps_rmi,tp_i2c_sda = <&tlmm 55 0>;
+		shtps_rmi,tp_i2c_scl = <&tlmm 56 0>;
+		shtps_rmi,test_mode_gpio = <&tlmm 59 0>;
+		shtps_rmi,tp_int = <&tlmm 122 0>;
+		pinctrl-names = "test_mode_pull_up", "test_mode_pull_down",
+						"panel_active","panel_standby",
+						"int_active","int_standby";
+		pinctrl-0 = <&shtps_test_mode_pull_up>;
+		pinctrl-1 = <&shtps_test_mode_pull_down>;
+		pinctrl-2 = <&shtps_i2c_active>;
+		pinctrl-3 = <&shtps_i2c_standby>;
+		pinctrl-4 = <&shtps_int_active>;
+		pinctrl-5 = <&shtps_int_standby>;
+	};
+};
+
+
+/*------------------------------*/
+/*  QUP18                       */
+/*------------------------------*/
+/* NOT USE */
+
+
+/*------------------------------*/
+/*  QUP19                       */
+/*------------------------------*/
+/* QUP17 MUX */
+
+

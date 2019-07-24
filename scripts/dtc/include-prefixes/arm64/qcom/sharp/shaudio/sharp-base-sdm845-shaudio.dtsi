@@ -1,0 +1,32 @@
+/* Copyright (c) 2017, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+// only write down delete-node/property for mainDTS
+/* SH_AUDIO_DRIVER -> */ /*A-001*/
+&cdc_reset_active {
+	/delete-node/ config;
+};
+/* SH_AUDIO_DRIVER -> */ /*A-010*/
+&fsa_usbc_ana_en{
+	/delete-node/ config;
+};
+&soc {
+	/delete-node/ fsa_usbc_ana_en_n@100;
+};
+/* SH_AUDIO_DRIVER <- */ /*A-010*/
+/* SH_AUDIO_DRIVER <- */ /*A-001*/
+
+/* SH_AUDIO_DRIVER -> */ /*A-011*/
+&wcd_intr_default {
+	/delete-node/ config;
+};
+/* SH_AUDIO_DRIVER <- */ /*A-011*/

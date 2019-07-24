@@ -1,0 +1,58 @@
+/* Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/*----------------------------------------*/
+/* reserved-memory                        */
+/*----------------------------------------*/
+&reserved_memory {
+
+	/*----------------------------------------------*/
+	/* shrlog                                       */
+	/*----------------------------------------------*/
+
+	shrlog_region: shrlog_region@b0000000 {
+		compatible = "removed-dma-pool";
+		no-map;
+		reg = <0x0 0xb0000000 0x0 0x100000>;
+		label = "shrlog_region";
+	};
+
+	ramoops_region: ramoops@b0100000 {
+		compatible = "ramoops";
+		reg = <0x0 0xb0100000 0x0 0x040000>;
+		console-size = <0x10000>;
+		record-size = <0x10000>;
+		pmsg-size = <0x20000>;
+		ftrace-size = <0x0>;
+		ecc-size = <0x0>;
+	};
+};
+
+/*----------------------------------------*/
+/* soc                                    */
+/*----------------------------------------*/
+
+&soc {
+	/*----------------------------------------------*/
+	/* shrlog                                       */
+	/*----------------------------------------------*/
+	sharp,shrlog {
+		compatible = "sharp,shrlog";
+		memory-region = <&shrlog_region>;
+		sharp,shrlog-offset = <0x0>;
+		sharp,shrlog-linux-offset = <0x0>;
+		sharp,aboot-log-region = <&shrlog_region>;
+		sharp,shrlog-abootlog-offset = <0x80000>;
+	};
+};
+
+

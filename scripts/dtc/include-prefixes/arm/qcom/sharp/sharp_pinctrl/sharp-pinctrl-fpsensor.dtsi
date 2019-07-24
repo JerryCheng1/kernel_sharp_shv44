@@ -1,0 +1,67 @@
+/* Copyright (c) 2016-2017, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+&tlmm {
+	/*****************************************/
+	/*  pinctrl customize setting            */
+	/*****************************************/
+
+	fpc_reset_reset: fpc_reset_reset {
+		mux {
+			pins = "gpio152";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio152";
+			drive-strength = <4>;
+			bias-disable;
+			output-low;
+		};
+	};
+	fpc_reset_active: fpc_reset_active {
+		mux {
+			pins = "gpio152";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio152";
+			drive-strength = <4>;
+			bias-disable;
+			output-high;
+		};
+	};
+
+	fpc_irq_active: fpc_irq_active {
+		mux {
+			pins = "gpio118";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio118";
+			drive-strength = <2>;
+			bias-pull-down;
+		};
+	};
+
+	fpc_vcc_power_en: fpc_vcc_power_en {
+		mux {
+			pins = "gpio116";
+			function = "gpio";
+		};
+		config {
+			pins = "gpio116";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+};
+

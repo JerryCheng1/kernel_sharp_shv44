@@ -1,0 +1,15 @@
+#
+# Sensor drivers configuration
+#
+# drivers/misc/proximity_light/Kconfig
+
+menuconfig  PROX_LIGHT
+	bool "Proximity_Light Sensor Configuration"
+
+if PROX_LIGHT
+config SHARP_PROXIMITY_CHECKER
+	tristate "Proximity checker driver"
+	default n
+
+endif
+

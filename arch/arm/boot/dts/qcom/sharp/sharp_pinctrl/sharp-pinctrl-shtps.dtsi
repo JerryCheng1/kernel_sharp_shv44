@@ -1,0 +1,87 @@
+/* Copyright (c) 2016, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+&tlmm {
+	shtps_test_mode_pull_up: shtps_test_mode_pull_up {
+		config {
+			pins = "gpio59";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
+
+	shtps_test_mode_pull_down: shtps_test_mode_pull_down {
+		config {
+			pins = "gpio59";
+			drive-strength = <2>;
+			bias-pull-down;
+		};
+	};
+
+	shtps_i2c_active: shtps_i2c_active {
+		/* I2C_SDA, I2C_SCL */
+		mux {
+			pins = "gpio55", "gpio56";
+			function = "qup17";
+		};
+
+		config {
+			pins = "gpio55", "gpio56";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	shtps_i2c_standby: shtps_i2c_standby {
+		/* I2C_SDA, I2C_SCL */
+		mux {
+			pins = "gpio55", "gpio56";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio55", "gpio56";
+			drive-strength = <2>;
+			bias-disable;
+		};
+	};
+
+	shtps_int_active: shtps_int_active {
+		/* INT */
+		mux {
+			pins = "gpio122";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio122";
+			drive-strength = <2>;
+			bias-pull-up;
+		};
+	};
+
+	shtps_int_standby: shtps_int_standby {
+		/* INT */
+		mux {
+			pins = "gpio122";
+			function = "gpio";
+		};
+
+		config {
+			pins = "gpio122";
+			drive-strength = <2>;
+			bias-pull-down;
+		};
+	};
+
+};
+

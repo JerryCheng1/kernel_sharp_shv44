@@ -1,0 +1,86 @@
+/*
+ * Copyright (c) 2017-2018, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+/*****************************************/
+/*  pm8150l: qcom,pm8150l alias          */
+/*****************************************/
+
+/*****************************************/
+/*  pm8150l-gpios: qpnp-pin               */
+/*****************************************/
+&pm8150l_gpios {
+	compatible = "qcom,spmi-gpio";
+	reg = <0xc000 0xc00>;
+	interrupts = <0x4 0xc0 0 IRQ_TYPE_NONE>,
+			<0x4 0xc1 0 IRQ_TYPE_NONE>,
+			<0x4 0xc2 0 IRQ_TYPE_NONE>,
+			<0x4 0xc3 0 IRQ_TYPE_NONE>,
+			<0x4 0xc4 0 IRQ_TYPE_NONE>,
+			<0x4 0xc5 0 IRQ_TYPE_NONE>,
+			<0x4 0xc7 0 IRQ_TYPE_NONE>,
+			<0x4 0xc8 0 IRQ_TYPE_NONE>,
+			<0x4 0xc9 0 IRQ_TYPE_NONE>,
+			<0x4 0xca 0 IRQ_TYPE_NONE>,
+			<0x4 0xcb 0 IRQ_TYPE_NONE>;
+	interrupt-names = "pm8150l_gpio1", "pm8150l_gpio2",
+			"pm8150l_gpio3", "pm8150l_gpio4",
+			"pm8150l_gpio5", "pm8150l_gpio6",
+			"pm8150l_gpio8", "pm8150l_gpio9",
+			"pm8150l_gpio10","pm8150l_gpio11",
+			"pm8150l_gpio12";
+	gpio-controller;
+	#gpio-cells = <2>;
+
+	qcom,gpios-disallowed = <7>;
+
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&pm8150l_gpio1_dig_in_default
+				&pm8150l_sd_pwr_en_default
+				&pm8150l_gpio3_dig_in_default
+				&pm8150l_gpio4_dig_in_default
+				&pm8150l_gpio5_dig_in_default
+				&pm8150l_lcd_therm_default
+				&pm8150l_gpio8_dig_in_default
+				&pm8150l_gpio10_dig_in_default
+				&pm8150l_lcd_detin_default
+				&pm8150l_nfc_service_default>;
+};
+
+/*****************************************/
+/*  pm8150l: rpm-regulator                */
+/*****************************************/
+&L5C {
+	regulator-min-microvolt = <1800000>;
+	regulator-max-microvolt = <1800000>;
+	qcom,init-voltage = <1800000>;
+	qcom,init-mode = <RPMH_REGULATOR_MODE_LPM>;
+	qcom,init-enable = <0>;
+};
+
+/*****************************************/
+/*  pm8150l_vadc:spmi-adc5               */
+/*****************************************/
+
+/*****************************************/
+/*  pm8150l_adc_tm:adc-tm5               */
+/*****************************************/
+&pm8150l_adc_tm {
+	io-channels = <&pm8150l_vadc ADC_AMUX_THM1_PU2>,
+			<&pm8150l_vadc ADC_AMUX_THM2_PU2>,
+			<&pm8150l_vadc ADC_GPIO2_PU2>;
+};
+
+/*****************************************/
+/*  thermal_zones                        */
+/*****************************************/

@@ -1,0 +1,253 @@
+/* Copyright (c) 2017, The Linux Foundation. All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 and
+ * only version 2 as published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
+
+/delete-node/ &display_panel_avdd_eldo;
+
+// write down for overlayDTS
+
+// change wled-electric-current and enable-list ///////////////////////////////////////////////////
+&pm8150l_wled {
+	// WLED1_CTRL_WLED_OVP
+	qcom,ovp = <29500>;
+	// WLED1_SINK_LED?_FULL_SCALE_CURRENT(1010 = 25mA)
+	qcom,fs-current-limit = <25000>;
+	qcom,string-cfg = <15>;
+
+	sharp,wled-linear-params = <
+	//	x	y
+		32	25
+		48	40
+		80	81
+		144	171
+		224	248
+		369	387
+		513	552
+		802	824
+		1059	1055
+		1429	1362
+		1750	1635
+		2151	1961
+		2633	2389
+		3083	2865
+		3613	3487
+		4095	4095
+	>;
+};
+
+&wled_flash {
+	qcom,wled-flash-fsc = <25>;
+	qcom,wled-flash-timer = <1200>;
+//	qcom,wled-flash-step = <200>;
+};
+
+&wled_torch {
+	qcom,wled-torch-fsc = <25>;
+	qcom,wled-torch-timer = <1200>;
+//	qcom,wled-torch-step = <200>;
+};
+
+// change lab/ibb setting(voltage) ////////////////////////////////////////////////////////////////
+&lcdb_ldo_vreg {
+	qcom,ldo-voltage-mv = <5800>;
+	regulator-min-microvolt = <5800000>;
+	regulator-max-microvolt = <5800000>;
+	// qcom,ldo-pd=0 write bit high
+	qcom,ldo-pd = <0>;
+};
+
+&lcdb_ncp_vreg {
+	qcom,ncp-voltage-mv = <5800>;
+	regulator-min-microvolt = <5700000>;
+	regulator-max-microvolt = <5800000>;
+	// qcom,ncp-pd=0 write bit high
+	qcom,ncp-pd = <1>;
+};
+
+// change panel regulators(vddio/vsp(lab)/vsn(ibb) settings(voltage, wait) ////////////////////////
+&dsi_panel_pwr_supply {
+
+	qcom,panel-supply-entry@0 {
+//		qcom,supply-name = "vddio";
+		qcom,supply-post-on-sleep = <5>;
+	};
+
+	qcom,panel-supply-entry@1 {
+//		qcom,supply-name = "lab";
+		qcom,supply-post-on-sleep = <10>;            // lab(5) + ibb(5)
+		qcom,supply-post-off-sleep = <5>;
+	};
+
+	qcom,panel-supply-entry@2 {
+//		qcom,supply-name = "ibb";
+		/delete-property/qcom,supply-post-on-sleep;
+//		qcom,supply-post-on-sleep = <5>;
+		qcom,supply-post-off-sleep = <5>;
+	};
+};
+
+
+// delete Qualcom default-active panel ////////////////////////////////////////////////////////////
+&dsi_sharp_4k_dsc_cmd_display {
+	/delete-property/qcom,dsi-display-active;
+};
+
+// SSC disable
+&mdss_dsi0_pll {
+	/delete-property/ qcom,dsi-pll-ssc-en;
+	/delete-property/ qcom,dsi-pll-ssc-mode;
+};
+
+&mdss_dsi1_pll {
+	/delete-property/ qcom,dsi-pll-ssc-en;
+	/delete-property/ qcom,dsi-pll-ssc-mode;
+};
+
+// add panels /////////////////////////////////////////////////////////////////////////////////////
+#include "sharp-shdisp-dsi-panel-raven-dual-qd-1440p-cmd.dtsi"
+#include "sharp-shdisp-dsi-panel-raven-dual-qe-1440p-cmd.dtsi"
+#include "sharp-shdisp-dsi-panel-raven-dual-sk-1440p-cmd.dtsi"
+#include "sharp-shdisp-panel-det.dtsi"
+#include "sharp-shled-leds.dtsi"
+
+// add chain-node for panel ////////////////////////////////////////////////////////////////////////
+&soc {
+	dsi_shdisp_raven_dual_qd_cmd_display: qcom,dsi-display@50 {
+		label = "shdisp_raven_dual_qd_cmd_display";
+		qcom,display-type = "primary";
+		qcom,dsi-display-active;
+
+		qcom,dsi-ctrl-num = <0 1>;
+		qcom,dsi-phy-num = <0 1>;
+		qcom,dsi-select-clocks = "mux_byte_clk0", "mux_pixel_clk0";
+
+		qcom,dsi-panel = <&dsi_shdisp_raven_dual_qd_cmd>;
+	};
+
+	dsi_shdisp_raven_dual_qe_cmd_display: qcom,dsi-display@51 {
+		label = "shdisp_raven_dual_qe_cmd_display";
+		qcom,display-type = "primary";
+		qcom,dsi-display-active;
+
+		qcom,dsi-ctrl-num = <0 1>;
+		qcom,dsi-phy-num = <0 1>;
+		qcom,dsi-select-clocks = "mux_byte_clk0", "mux_pixel_clk0";
+
+		qcom,dsi-panel = <&dsi_shdisp_raven_dual_qe_cmd>;
+	};
+
+	dsi_shdisp_raven_dual_sk_cmd_display: qcom,dsi-display@52 {
+		label = "shdisp_raven_dual_sk_cmd_display";
+		qcom,display-type = "primary";
+		qcom,dsi-display-active;
+
+		qcom,dsi-ctrl-num = <0 1>;
+		qcom,dsi-phy-num = <0 1>;
+		qcom,dsi-select-clocks = "mux_byte_clk0", "mux_pixel_clk0";
+
+		qcom,dsi-panel = <&dsi_shdisp_raven_dual_sk_cmd>;
+	};
+};
+
+&sde_dsi {
+	/delete-property/ vdd-supply;
+
+	pinctrl-names = "panel_active", "panel_suspend";
+	pinctrl-0 = <&sde_te_active>;
+	pinctrl-1 = <&sde_te_suspend>;
+
+	qcom,dsi-display-list =
+		<&dsi_sharp_4k_dsc_video_display
+		&dsi_sharp_4k_dsc_cmd_display
+		&dsi_sharp_1080_cmd_display
+		&dsi_dual_sharp_1080_120hz_cmd_display
+		&dsi_dual_nt35597_truly_video_display
+		&dsi_dual_nt35597_truly_cmd_display
+		&dsi_nt35597_truly_dsc_cmd_display
+		&dsi_nt35597_truly_dsc_video_display
+		&dsi_sim_vid_display
+		&dsi_dual_sim_vid_display
+		&dsi_sim_cmd_display
+		&dsi_dual_sim_cmd_display
+		&dsi_sim_dsc_375_cmd_display
+		&dsi_dual_sim_dsc_375_cmd_display
+		&dsi_sw43404_amoled_cmd_display
+		&dsi_nt35695b_truly_fhd_cmd_display
+		&dsi_nt35695b_truly_fhd_video_display
+		&dsi_sw43404_amoled_video_display
+		&dsi_sw43404_amoled_fhd_plus_cmd_display
+		&dsi_shdisp_raven_dual_qd_cmd_display
+		&dsi_shdisp_raven_dual_qe_cmd_display
+		&dsi_shdisp_raven_dual_sk_cmd_display>;
+};
+
+&sde_dsi1 {
+	/delete-property/ vdd-supply;
+};
+
+
+// change Display port pin config /////////////////////////////////////////////////////////////////
+&sde_dp {
+	status = "disabled";
+	qcom,aux-sel-gpio = <&tlmm 44 0>;
+};
+
+&mdss_mdp {
+	connectors = <&sde_rscc &sde_wb &sde_dsi>;
+};
+
+&mdss_mdp {
+	qcom,sde-smart-panel-align-mode = <0xd>;
+};
+
+&pm8150l_lpg{
+	qcom,lut-patterns = <0 100>;
+	//firefly pattern
+//	qcom,lut-patterns = <0 10 20 30 40 50 60 70 80 90 100
+//		90 80 70 60 50 40 30 20 10 00>;
+
+	lpg1 {	//red
+		qcom,lpg-chan-id = <1>;
+		qcom,ramp-step-ms = <30>;
+		qcom,ramp-pause-hi-count = <4>;
+		qcom,ramp-pause-lo-count = <161>;
+		qcom,ramp-low-index = <0>;
+		qcom,ramp-high-index = <1>;
+		qcom,ramp-from-low-to-high;	// RAMP_UP
+		qcom,ramp-pattern-repeat;	// LOOP
+//		qcom,ramp-toggle;		// REVERSE
+	};
+
+	lpg2 {	//green
+		qcom,lpg-chan-id = <2>;
+		qcom,ramp-step-ms = <30>;
+		qcom,ramp-pause-hi-count = <4>;
+		qcom,ramp-pause-lo-count = <161>;
+		qcom,ramp-low-index = <0>;
+		qcom,ramp-high-index = <1>;
+		qcom,ramp-from-low-to-high;	// RAMP_UP
+		qcom,ramp-pattern-repeat;	// LOOP
+//		qcom,ramp-toggle;		// REVERSE
+	};
+
+	lpg3 {	//blue
+		qcom,lpg-chan-id = <3>;
+		qcom,ramp-step-ms = <30>;
+		qcom,ramp-pause-hi-count = <4>;
+		qcom,ramp-pause-lo-count = <161>;
+		qcom,ramp-low-index = <0>;
+		qcom,ramp-high-index = <1>;
+		qcom,ramp-from-low-to-high;	// RAMP_UP
+		qcom,ramp-pattern-repeat;	// LOOP
+//		qcom,ramp-toggle;		// REVERSE
+	};
+};
